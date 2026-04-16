@@ -1,14 +1,16 @@
-﻿using ChaitraliAPI.Model;
+using ChaitraliAPI.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChaitraliAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly IWebHostEnvironment _env;
