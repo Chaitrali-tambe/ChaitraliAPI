@@ -1,4 +1,4 @@
-﻿using System.Runtime.ConstrainedExecution;
+using System.Runtime.ConstrainedExecution;
 using System.Text.Json.Serialization;
 
 namespace ChaitraliAPI.Model
@@ -11,7 +11,7 @@ namespace ChaitraliAPI.Model
     public class Orders
     {
         public int Row_ID { get; set; }
-        public int Order_ID { get; set; }
+        public string? Order_ID { get; set; }
         public string? Order_Date { get; set; }
         public string? Ship_Date { get; set; }
         public string? Ship_Mode { get; set; }
@@ -27,9 +27,9 @@ namespace ChaitraliAPI.Model
         public string? Category { get; set; }
         public string? Sub_Category { get; set; }
         public string? Product_Name { get; set; }
-        public int Sales { get; set; }
+        public float Sales { get; set; }
         public int Quantity { get; set; }
-        public int Discount { get; set; }
-        public int Profit { get; set; }
+        public float Discount { get; set; }
+        public float Profit { get; set; }
     }
 }
