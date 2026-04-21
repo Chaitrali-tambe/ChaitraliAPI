@@ -1,4 +1,4 @@
-﻿using ChaitraliAPI.Model;
+using ChaitraliAPI.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +18,8 @@ namespace ChaitraliAPI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetRemoteOrders()
+        [HttpGet("github-json-products")]
+        public async Task<IActionResult> GetRemoteProducts()
         {
             // 1. Your GitHub Raw link (Ensure it is the "raw" version)
             var githubUrl = "https://raw.githubusercontent.com/Chaitrali-tambe/ChaitraliJson/refs/heads/main/products.json";
@@ -30,6 +30,9 @@ namespace ChaitraliAPI.Controllers
             try
             {
                 // 3. Fetch the data
+
+                client.DefaultRequestHeaders.Add("User-Agent", "C# App");
+
                 var response = await client.GetAsync(githubUrl);
 
                 if (!response.IsSuccessStatusCode)
@@ -51,6 +54,9 @@ namespace ChaitraliAPI.Controllers
                 return BadRequest($"Error fetching data: {ex.Message}");
             }
         }
+
+
+        ////below code when json file in the project solution
 
         //private readonly IWebHostEnvironment _env;
 
@@ -78,4 +84,3 @@ namespace ChaitraliAPI.Controllers
         //    return Ok(productList);
     }
 }
-
