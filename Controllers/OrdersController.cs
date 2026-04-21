@@ -13,31 +13,45 @@ namespace ChaitraliAPI.Controllers
     [Authorize]
     public class OrdersController : ControllerBase
     {
-        private readonly IWebHostEnvironment _env;
-
-        public OrdersController(IWebHostEnvironment env)
+        private readonly IHttpClientFactory _httpClientFactory;
+        public OrdersController(IHttpClientFactory httpClientFactory)
         {
-            _env = env;
+            _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet("getAllOrders")]
-        public async Task<IActionResult> GetAllOrders()
+        [HttpGet("github-json-Orders")]
+        public async Task<IActionResult> GetAllRemoteOrders()
         {
-            var filepath = Path.Combine(_env.ContentRootPath, "Json", "orders.json");
+            try
+            {
+                var githubUrl = "https://raw.githubusercontent.com/Chaitrali-tambe/ChaitraliJson/refs/heads/main/orders.json";
 
-            if (!System.IO.File.Exists(filepath))
-                return NotFound();
+                // 2. Create the client
+                var client = _httpClientFactory.CreateClient();
 
-            string jsonstring = await System.IO.File.ReadAllTextAsync(filepath);
+                client.DefaultRequestHeaders.Add("User-Agent", "C# App");
 
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true};
+                var response = await client.GetAsync(githubUrl);
+                if (!response.IsSuccessStatusCode)
+                    return StatusCode((int)response.StatusCode, "Could not reach GitHub.");
 
-            var data = JsonSerializer.Deserialize<OrdersModel>(jsonstring, options);
+                // 4. Read content as string
+                var jsonString = await response.Content.ReadAsStringAsync();
 
-            var orderList = data?.Orders;
+                // 5. Deserialize using your OrderResponse wrapper
+                var data = JsonSerializer.Deserialize<OrdersModel>(jsonString, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
 
-            return Ok(orderList);
+                return Ok(data?.Orders);
+            }
+            catch (HttpRequestException ex)
+            {
+                return BadRequest($"Error fetching data: {ex.Message}");
+            }
         }
+
     }
 
 
