@@ -1,4 +1,4 @@
-﻿using ChaitraliAPI.Model;
+using ChaitraliAPI.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@ namespace ChaitraliAPI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet]
+        [HttpGet("github-json")]
         public async Task<IActionResult> GetRemoteOrders()
         {
             // 1. Your GitHub Raw link (Ensure it is the "raw" version)
@@ -30,6 +30,9 @@ namespace ChaitraliAPI.Controllers
             try
             {
                 // 3. Fetch the data
+
+                client.DefaultRequestHeaders.Add("User-Agent", "C# App");
+
                 var response = await client.GetAsync(githubUrl);
 
                 if (!response.IsSuccessStatusCode)
@@ -52,30 +55,6 @@ namespace ChaitraliAPI.Controllers
             }
         }
 
-        //private readonly IWebHostEnvironment _env;
-
-        //public ProductCTController(IWebHostEnvironment env)
-        //{
-        //    _env = env;
-        //}
-
-        //[HttpGet("getAllProducts")]
-        //public async Task<IActionResult> GetAllOrders()
-        //{
-        //    var filepath = Path.Combine(_env.ContentRootPath, "Json", "products.json");
-
-        //    if (!System.IO.File.Exists(filepath))
-        //        return NotFound();
-
-        //    string jsonstring = await System.IO.File.ReadAllTextAsync(filepath);
-
-        //    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-        //    var data = JsonSerializer.Deserialize<ProductCT>(jsonstring, options);
-
-        //    var productList = data?.Product;
-
-        //    return Ok(productList);
     }
 }
 
