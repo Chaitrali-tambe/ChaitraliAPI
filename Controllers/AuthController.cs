@@ -27,8 +27,7 @@ namespace ChaitraliAPI.Controllers
                 var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(
                     issuer: _config["Jwt:Issuer"],
                     audience: _config["Jwt:Audience"],
-                    expires: DateTime.Now.AddMinutes(1),
-                    //DateTime.Now.AddMinutes(1),
+                    expires: DateTime.Now.AddDays(1),
                     signingCredentials: creds
                     );
 
