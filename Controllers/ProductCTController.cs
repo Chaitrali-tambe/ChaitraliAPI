@@ -18,8 +18,8 @@ namespace ChaitraliAPI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet("github-json")]
-        public async Task<IActionResult> GetRemoteOrders()
+        [HttpGet("github-json-products")]
+        public async Task<IActionResult> GetRemoteProducts()
         {
             // 1. Your GitHub Raw link (Ensure it is the "raw" version)
             var githubUrl = "https://raw.githubusercontent.com/Chaitrali-tambe/ChaitraliJson/refs/heads/main/products.json";
@@ -55,6 +55,32 @@ namespace ChaitraliAPI.Controllers
             }
         }
 
+
+        ////below code when json file in the project solution
+
+        //private readonly IWebHostEnvironment _env;
+
+        //public ProductCTController(IWebHostEnvironment env)
+        //{
+        //    _env = env;
+        //}
+
+        //[HttpGet("getAllProducts")]
+        //public async Task<IActionResult> GetAllOrders()
+        //{
+        //    var filepath = Path.Combine(_env.ContentRootPath, "Json", "products.json");
+
+        //    if (!System.IO.File.Exists(filepath))
+        //        return NotFound();
+
+        //    string jsonstring = await System.IO.File.ReadAllTextAsync(filepath);
+
+        //    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+        //    var data = JsonSerializer.Deserialize<ProductCT>(jsonstring, options);
+
+        //    var productList = data?.Product;
+
+        //    return Ok(productList);
     }
 }
-
