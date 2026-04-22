@@ -16,7 +16,7 @@ namespace ChaitraliAPI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        [HttpGet("github-json-category")]
+        [HttpGet("github-json-customer")]
         public async Task<IActionResult> AllCategories()
         {
             try
